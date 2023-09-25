@@ -1,24 +1,14 @@
+import classNames from 'classnames/bind';
 
-const HeroesListItem = ({name, description, element}) => {
+const HeroesListItem = ({name, description, element, onRemove}) => {
 
-    let elementClassName;
-
-    switch (element) {
-        case 'fire':
-            elementClassName = 'bg-danger bg-gradient';
-            break;
-        case 'water':
-            elementClassName = 'bg-primary bg-gradient';
-            break;
-        case 'wind':
-            elementClassName = 'bg-success bg-gradient';
-            break;
-        case 'earth':
-            elementClassName = 'bg-secondary bg-gradient';
-            break;
-        default:
-            elementClassName = 'bg-warning bg-gradient';
-    }
+    const elementClassName = classNames({
+        'bg-danger bg-gradient': element === 'fire',
+        'bg-primary bg-gradient': element === 'water',
+        'bg-success bg-gradient': element === 'wind',
+        'bg-secondary bg-gradient': element === 'earth',
+        'bg-secondary bg-warning': element === 'all',
+    })
 
     return (
         <li 
@@ -33,7 +23,7 @@ const HeroesListItem = ({name, description, element}) => {
                 <p className="card-text">{description}</p>
             </div>
             <span className="position-absolute top-0 start-100 translate-middle badge border rounded-pill bg-light">
-                <button type="button" className="btn-close btn-close" aria-label="Close"></button>
+                <button type="button" className="btn-close btn-close" aria-label="Close" onClick={onRemove}></button>
             </span>
         </li>
     )
