@@ -15,7 +15,7 @@ const HeroesAddForm = () => {
 
     const dispatch = useDispatch();
 
-    const { filters } = useSelector(state => state)
+    const { filters } = useSelector(state => state.filters)
 
     const  onSubmit = async (e) => {
         e.preventDefault()

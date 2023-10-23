@@ -7,8 +7,8 @@ import {useHttp} from '../../hooks/http.hook';
 
 const HeroesFilters = () => {
 
-    const filters = useSelector(store => store.filters)
-    const activeFilter = useSelector(store => store.activeFilter)
+    const filters = useSelector(store => store.filters.filters)
+    const activeFilter = useSelector(store => store.filters.activeFilter)
     const {request} = useHttp();
 
     const dispatch = useDispatch()
