@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/Hero-CRUD/static/css/main.81360d19.css",
+    "main.js": "/Hero-CRUD/static/js/main.2dafb7c3.js",
+    "static/media/hero_bg.jpg": "/Hero-CRUD/static/media/hero_bg.0540b794b0424b67d780.jpg",
+    "index.html": "/Hero-CRUD/index.html",
+    "main.81360d19.css.map": "/Hero-CRUD/static/css/main.81360d19.css.map",
+    "main.2dafb7c3.js.map": "/Hero-CRUD/static/js/main.2dafb7c3.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.81360d19.css",
+    "static/js/main.2dafb7c3.js"
+  ]
+}
