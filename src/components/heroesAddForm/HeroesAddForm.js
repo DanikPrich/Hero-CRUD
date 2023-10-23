@@ -6,17 +6,6 @@ import {useHttp} from '../../hooks/http.hook';
 import { useDispatch, useSelector } from 'react-redux';
 import { heroesFetched, heroesFetchingError } from '../../actions';
 
-
-// Задача для этого компонента:
-// Реализовать создание нового героя с введенными данными. Он должен попадать
-// в общее состояние и отображаться в списке + фильтроваться
-// Уникальный идентификатор персонажа можно сгенерировать через uiid
-// Усложненная задача:
-// Персонаж создается и в файле json при помощи метода POST
-// Дополнительно:
-// Элементы <option></option> желательно сформировать на базе
-// данных из фильтров
-
 const HeroesAddForm = () => {
     const {request} = useHttp();
 
@@ -48,8 +37,9 @@ const HeroesAddForm = () => {
 
     const SelectComponent = () => {
         const Options = () => {
-            return filters.map((filter, i) => {
-                return <option key={i} value={filter.value}>{filter.title}</option>
+            return filters.map(({value, title}, i) => {
+                if(value === 'all') return;
+                return <option key={i} value={value}>{title}</option>
             })
         }
         return (
@@ -61,13 +51,11 @@ const HeroesAddForm = () => {
                 value={element}
                 onChange={(e) => setElement(e.target.value)}
             >
-                <option>I have element...</option>
+                <option disabled={true}>I have element...</option>
                 <Options />
             </select>
         )
     }
-
-
 
     return (
         <form className="border p-4 shadow-lg rounded" onSubmit={onSubmit}>
@@ -80,7 +68,7 @@ const HeroesAddForm = () => {
                     value={name}
                     className="form-control" 
                     id="name" 
-                    placeholder="Как меня зовут?"
+                    placeholder="How is my name?"
                     onChange={(e) => setName(e.target.value)}/>
             </div>
 
@@ -92,7 +80,7 @@ const HeroesAddForm = () => {
                     value={text}
                     className="form-control" 
                     id="text" 
-                    placeholder="Что я умею?"
+                    placeholder="What can I do?"
                     style={{"height": '130px'}}
                     onChange={(e) => setText(e.target.value)}/>
             </div>

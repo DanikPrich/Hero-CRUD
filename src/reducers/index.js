@@ -6,7 +6,6 @@ const initialState = {
 }
 
 const reducer = (state = initialState, action) => {
-    //Если происходит работа с сервером пишем три action: FETCHING, FETCHED, FETCHING_ERROR
     switch (action.type) {
         case 'HEROES_FETCHING':
             return {
