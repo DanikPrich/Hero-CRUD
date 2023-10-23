@@ -24,6 +24,13 @@ export const filtersFetched = (filters) => {
     }
 }
 
+export const heroDeleted = (id) => {
+    return {
+        type: 'HERO_DELETED',
+        payload: id
+    }
+}
+
 export const setActiveFilter = (activeFilter) => {
     return {
         type: 'SET_ACTIVE_FILTER',
