@@ -19,7 +19,7 @@ import { heroesFetching, heroesFetched, heroesFetchingError, filtersFetching, fi
 const HeroesAddForm = () => {
     const {request} = useHttp();
     const dispatch = useDispatch();
-    const filters = useSelector(state => state.filters)
+    const {filters} = useSelector(state => state.filters)
 
     const [name, setName] = useState('')
     const [description, setDescripton] = useState('')

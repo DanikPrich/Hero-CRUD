@@ -14,9 +14,7 @@ import Spinner from "../spinner/Spinner";
 
 const HeroesFilters = () => {
 
-    const filters = useSelector(state => state.filters)
-    const activeFilter = useSelector(state => state.activeFilter)
-    const filtersLoadingStatus = useSelector(state => state.filtersLoadingStatus)
+    const { filters, activeFilter, filtersLoadingStatus } = useSelector(state => state.filters)
     const dispatch = useDispatch()
     
     const setButtonClass = (elemValue) => {

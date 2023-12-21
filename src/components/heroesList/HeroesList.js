@@ -13,8 +13,10 @@ import Spinner from '../spinner/Spinner';
 
 const HeroesList = () => {
     //Через селектор достаем целый стейт и деструктурируем значение 
-    const {heroes, heroesLoadingStatus} = useSelector(state => state);
-    const activeFilter = useSelector(state => state.activeFilter)
+    const filteredHeroes = useSelector(state => {
+        return state.heroes.heroes.filter(item => item.element === state.filters.activeFilter || state.filters.activeFilter === 'all')
+    })
+    const heroesLoadingStatus = useSelector(state => state.heroes.heroesLoadingStatus);
     const dispatch = useDispatch();
     const {request} = useHttp();
 
@@ -27,17 +29,17 @@ const HeroesList = () => {
         // eslint-disable-next-line
     }, []);
 
-    const onHeroDelete = useCallback((id) => {
+    const onHeroDelete = useCallback( async (id) => {
         //Вариант с API
-        // await request(`http://localhost:3001/heroes/${id}`, 'DELETE')
+        await request(`http://localhost:3001/heroes/${id}`, 'DELETE')
 
-        // dispatch(heroesFetching())
-        // request('http://localhost:3001/heroes')
-        //     .then(data => dispatch(heroesFetched(data)))
-        //     .catch(heroesFetchingError())
+        dispatch(heroesFetching())
+        request('http://localhost:3001/heroes')
+            .then(data => dispatch(heroesFetched(data)))
+            .catch(heroesFetchingError())
 
         //Вариант со стором
-        dispatch(deleteHeroById(id))
+        // dispatch(deleteHeroById(id))
         //eslint-disable-next-line
     }, [request])
 
@@ -53,13 +55,13 @@ const HeroesList = () => {
         }
 
         return arr
-            .filter(item => item.element === activeFilter || activeFilter === 'all')
+            
             .map(({id, ...props}) => {
             return <HeroesListItem key={id} {...props} onHeroDelete={() => onHeroDelete(id)}/>
         })
     }
 
-    const elements = renderHeroesList(heroes);
+    const elements = renderHeroesList(filteredHeroes);
     return (
         <ul>
             {elements}
