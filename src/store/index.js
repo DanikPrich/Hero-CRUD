@@ -3,6 +3,8 @@ import reducer from '../reducers';
 import heroes from '../reducers/heroes';
 import filters from '../reducers/filters';
 
+import {thunk} from 'redux-thunk'
+
 //Создаем усилитель - enhancer
 //Помещаем создание стора в функцию которая вернет функцию стора с измененным диспетчем
 // ...args это аргументы которые мы поместим в createStore при первом вызове, 
@@ -48,7 +50,7 @@ const stringMiddleware = (store) => (next) => (action) => {
 const store = createStore(
   combineReducers({heroes, filters}),
   // applyMiddleware(stringMiddleware), мы можем добавить вот таким образом миддлвееры или
-  compose(applyMiddleware(stringMiddleware),  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
+  compose(applyMiddleware(thunk, stringMiddleware),  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
   // compose(enhancer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
 );
 

@@ -1,3 +1,11 @@
+//Таким образом мы централизованно выполняем асинхронную операцию прямо в dispatch и записываем данные
+export const fetchHeroes = (request) => (dispatch) => {
+    dispatch(heroesFetching());
+    request("http://localhost:3001/heroes")
+        .then(data => dispatch(heroesFetched(data)))
+        .catch(() => dispatch(heroesFetchingError()))
+}
+
 export const heroesFetching = () => {
     return {
         type: 'HEROES_FETCHING'
@@ -22,6 +30,13 @@ export const deleteHeroById = (id) => {
         type: 'HEROES_DELETE_BY_ID',
         payload: id
     }
+}
+
+export const fetchFilters = (request) => (dispatch) => {
+    dispatch(filtersFetching())
+        request('http://localhost:3001/filters')
+            .then(data => dispatch(filtersFetched(data)))
+            .catch(() => dispatch(filtersFetchingError()))
 }
 
 export const filtersFetching = () => {
@@ -49,3 +64,15 @@ export const setActiveFilter = (newActiveFilter) => {
         payload: newActiveFilter
     }
 }
+
+//когда actionCreator будет вызываться, он будет возаращать функцию которая принимает dispatch
+//Это нужно понять - что если используем thunk-middleware - dispatch входит сюда автоматически (не нужно испортировать ни от куда)
+// export const setActiveFilter = (newActiveFilter) => (dispatch) => {
+//     //Поэтому теперь мы можем вызывать dispatch в асинхронных функциях 
+//     setTimeout(() => {
+//         dispatch({
+//             type: 'SET_ACTIVE_FILTER',
+//             payload: newActiveFilter
+//         })
+//     }, 1000)
+// }

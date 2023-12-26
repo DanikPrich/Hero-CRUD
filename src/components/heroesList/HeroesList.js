@@ -2,7 +2,7 @@ import {useHttp} from '../../hooks/http.hook';
 import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { heroesFetching, heroesFetched, heroesFetchingError, deleteHeroById } from '../../actions';
+import { deleteHeroById, fetchHeroes } from '../../actions';
 import HeroesListItem from "../heroesListItem/HeroesListItem";
 import Spinner from '../spinner/Spinner';
 import { createSelector } from 'reselect';
@@ -31,22 +31,14 @@ const HeroesList = () => {
     const {request} = useHttp();
 
     useEffect(() => {
-        dispatch(heroesFetching());
-        request("http://localhost:3001/heroes")
-            .then(data => dispatch(heroesFetched(data)))
-            .catch(() => dispatch(heroesFetchingError()))
-
+        dispatch(fetchHeroes(request))
         // eslint-disable-next-line
     }, []);
 
     const onHeroDelete = useCallback( async (id) => {
         //Вариант с API
         await request(`http://localhost:3001/heroes/${id}`, 'DELETE')
-
-        dispatch(heroesFetching())
-        request('http://localhost:3001/heroes')
-            .then(data => dispatch(heroesFetched(data)))
-            .catch(heroesFetchingError())
+        dispatch(fetchHeroes(request))
 
         //Вариант со стором
         // dispatch(deleteHeroById(id))

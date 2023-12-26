@@ -14,7 +14,7 @@ import { useState, useEffect} from 'react'
 import { v4 as uuidv4 } from 'uuid';
 import {useHttp} from '../../hooks/http.hook';
 import { useDispatch, useSelector } from 'react-redux';
-import { heroesFetching, heroesFetched, heroesFetchingError, filtersFetching, filtersFetched, filtersFetchingError } from '../../actions';
+import { fetchHeroes, fetchFilters} from '../../actions';
 
 const HeroesAddForm = () => {
     const {request} = useHttp();
@@ -26,10 +26,7 @@ const HeroesAddForm = () => {
     const [element, setElement] = useState('')
 
     useEffect(() => {
-        dispatch(filtersFetching())
-        request('http://localhost:3001/filters')
-            .then(data => dispatch(filtersFetched(data)))
-            .catch(() => dispatch(filtersFetchingError()))
+        dispatch(fetchFilters(request))
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
@@ -44,12 +41,7 @@ const HeroesAddForm = () => {
         }
 
         await request('http://localhost:3001/heroes', 'POST', JSON.stringify(data))
-
-        dispatch(heroesFetching())
-        request('http://localhost:3001/heroes')
-            .then(data => dispatch(heroesFetched(data)))
-            .catch(heroesFetchingError())
-        
+        dispatch(fetchHeroes(request))
         setName('')
         setDescripton('')
         setElement('')
@@ -57,7 +49,7 @@ const HeroesAddForm = () => {
 
     const filtersOptions = (filters) => {
         return filters
-        .filter(elem => elem !== 'all')
+        .filter(elem => elem.value !== 'all')
         .map((elem, index) => <option key={index} value={elem.value}>{elem.text}</option>)
     }
 
@@ -100,7 +92,7 @@ const HeroesAddForm = () => {
                     value={element}
                     onChange={(e) => setElement(e.target.value)}
                     >
-                    <option >I wield the element of...</option>
+                    <option hidden value="hello">I wield the element of...</option>
                     {filtersOptions(filters)}
                 </select>
             </div>
