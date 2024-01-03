@@ -1,5 +1,7 @@
-import heroes from '../reducers/heroes';
-import filters from '../reducers/filters';
+// import heroes from '../reducers/heroes';
+import heroes from '../components/heroesList/heroesSlice'; //изменили расположение редьюсера (точнее слайса), он экспортирует редьюсер поэтому используем его
+// import filters from '../reducers/filters';
+import filters from '../components/heroesFilters/heroesFiltersSlice';
 import { configureStore } from '@reduxjs/toolkit';
 
 //Создаем усилитель - enhancer

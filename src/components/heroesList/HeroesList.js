@@ -2,7 +2,9 @@ import {useHttp} from '../../hooks/http.hook';
 import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { deleteHeroById, fetchHeroes } from '../../actions';
+
+import { fetchHeroes } from '../../actions'; //Эта функция идет из экшенов так как мы не можем ее никуда поместить кроме этого
+import { deleteHeroById } from './heroesSlice'; //Редьюсер берется из слайса 
 import HeroesListItem from "../heroesListItem/HeroesListItem";
 import Spinner from '../spinner/Spinner';
 import { createSelector } from 'reselect';

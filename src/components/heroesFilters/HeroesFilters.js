@@ -8,7 +8,7 @@
 
 import { useDispatch, useSelector } from "react-redux";
 import classNames from 'classnames/bind';
-import { setActiveFilter } from "../../actions";
+import { setActiveFilter } from "./heroesFiltersSlice";
 import Spinner from "../spinner/Spinner";
 
 
