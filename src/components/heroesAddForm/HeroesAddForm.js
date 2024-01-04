@@ -14,20 +14,22 @@ import { useState, useEffect} from 'react'
 import { v4 as uuidv4 } from 'uuid';
 import {useHttp} from '../../hooks/http.hook';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchFilters } from '../heroesFilters/heroesFiltersSlice';
+import { fetchFilters, selectAll } from '../heroesFilters/heroesFiltersSlice';
 import { fetchHeroes } from '../heroesList/heroesSlice';
+import store from '../../store';
 
 const HeroesAddForm = () => {
     const {request} = useHttp();
     const dispatch = useDispatch();
-    const {filters} = useSelector(state => state.filters)
+    const {filtersLoadingStatus} = useSelector(state => state.filters);
+    const filters = selectAll(store.getState())
 
     const [name, setName] = useState('')
     const [description, setDescripton] = useState('')
     const [element, setElement] = useState('')
 
     useEffect(() => {
-        dispatch(fetchFilters( ))
+        dispatch(fetchFilters())
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
@@ -48,7 +50,12 @@ const HeroesAddForm = () => {
         setElement('')
     }
 
-    const filtersOptions = (filters) => {
+    const filtersOptions = (filters, status) => {
+        if (status === "loading") {
+            return <option>Загрузка элементов</option>
+        } else if (status === "error") {
+            return <option>Ошибка загрузки</option>
+        }
         return filters
         .filter(elem => elem.value !== 'all')
         .map((elem, index) => <option key={index} value={elem.value}>{elem.text}</option>)
@@ -94,7 +101,7 @@ const HeroesAddForm = () => {
                     onChange={(e) => setElement(e.target.value)}
                     >
                     <option hidden value="hello">I wield the element of...</option>
-                    {filtersOptions(filters)}
+                    {filtersOptions(filters, filtersLoadingStatus)}
                 </select>
             </div>
 

@@ -8,13 +8,15 @@
 
 import { useDispatch, useSelector } from "react-redux";
 import classNames from 'classnames/bind';
-import { setActiveFilter } from "./heroesFiltersSlice";
+import { selectAll, setActiveFilter } from "./heroesFiltersSlice";
 import Spinner from "../spinner/Spinner";
+import store from "../../store";
 
 
 const HeroesFilters = () => {
 
-    const { filters, activeFilter, filtersLoadingStatus } = useSelector(state => state.filters)
+    const { activeFilter, filtersLoadingStatus } = useSelector(state => state.filters)
+    const filters = selectAll(store.getState())
     const dispatch = useDispatch()
     
     const setButtonClass = (elemValue) => {
@@ -53,7 +55,7 @@ const HeroesFilters = () => {
     return (
         <div className="card shadow-lg mt-4">
             <div className="card-body">
-                <p className="card-text">Отфильтруйте героев по элементам</p>
+                <p className="card-text">Filter the characters by elements</p>
                 {filtersGroup(filters, filtersLoadingStatus)}
             </div>
         </div>

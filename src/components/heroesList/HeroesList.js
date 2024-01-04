@@ -4,10 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 
 
 // import { fetchHeroes } from '../../actions'; //Эта функция идет из экшенов так как мы не можем ее никуда поместить кроме этого
-import { deleteHeroById, fetchHeroes } from './heroesSlice'; //Редьюсер берется из слайса 
+import { deleteHeroById, fetchHeroes, selectAll, filteredHeroesSelector } from './heroesSlice'; //Редьюсер берется из слайса 
 import HeroesListItem from "../heroesListItem/HeroesListItem";
 import Spinner from '../spinner/Spinner';
-import { createSelector } from '@reduxjs/toolkit'; 
 
 // Задача для этого компонента:
 // При клике на "крестик" идет удаление персонажа из общего состояния
@@ -20,14 +19,9 @@ const HeroesList = () => {
     //     return state.heroes.heroes.filter(item => item.element === state.filters.activeFilter || state.filters.activeFilter === 'all')
     // })
 
-    //Функция проверяет изменилось ли значение двух этих селекторов и мемоизирует их
-    const filteredHeroesSelector = createSelector(
-        state => state.heroes.heroes,
-        state => state.filters.activeFilter,
-        (heroes, activeFilter) => heroes.filter(item => item.element === activeFilter || activeFilter === 'all')
-    )
+    //Мы вырезали функцию селектор отфильтрованных героев из этого файла и поместили в слайс
+   
     const filteredHeroes = useSelector(filteredHeroesSelector)
-
     const heroesLoadingStatus = useSelector(state => state.heroes.heroesLoadingStatus);
     const dispatch = useDispatch();
     const {request} = useHttp();
