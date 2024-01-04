@@ -1,9 +1,22 @@
-import { createSlice, nanoid } from "@reduxjs/toolkit";
+import { createSlice, nanoid, createAsyncThunk } from "@reduxjs/toolkit";
+import { useHttp } from "../../hooks/http.hook";
 
 const initialState = {
   heroes: [],
   heroesLoadingStatus: 'idle',
 }
+
+//Создаем экшн с асинхронной фукнцией
+// 1 - название нашего среза / название экшена 
+// 2 - функция которая должна вернуть промис 
+export const fetchHeroes = createAsyncThunk(
+  'heroes/fetchHeroes', 
+  async (id, thunkApi) => { //функция принимает 1 аргумент который мы передали при вызове, 2 - thunkAPI (это и dispatch, getState и другие)
+    const {request} = useHttp(); //получаем реквест чтобы дальше его использовать
+    return await request("http://localhost:3001/heroes") //возвращаем промис - что нам и надо. Эти данные отправятся и обработаются
+  }
+)
+
 
 //Создаем slice через функцию 
 //Принимает 4 аргумента: 
@@ -43,6 +56,15 @@ const heroesSlice  = createSlice({
     }
   },
   // extraReducers: это дополнительные редьюсеры которые используются для изменения в этом сторе 
+  extraReducers: (builder) => { //Он использует builder api
+    builder.addCase(fetchHeroes.pending, state => {state.heroesLoadingStatus = 'loading'}) //При пендинге у нас запускается loading
+    builder.addCase(fetchHeroes.fulfilled, (state, action) => { // При выполненном запросе, наши данные передадутся в action 
+      state.heroesLoadingStatus = 'idle'
+      state.heroes = action.payload; 
+    })
+    builder.addCase(fetchHeroes.rejected, state => {state.heroesLoadingStatus = 'error'})
+    builder.addDefaultCase(() => {})
+  }
 });
 
 //Функция нам отдаст обьект с тремя полями - имя слайса, редьюсеры и actions 

@@ -7,12 +7,13 @@ import { filtersFetching, filtersFetched, filtersFetchingError } from "../compon
 //когда actionCreator будет вызываться, он будет возаращать функцию которая принимает dispatch
 //Это нужно понять - что если используем thunk-middleware - dispatch входит сюда автоматически (не нужно испортировать ни от куда)
 //Таким образом мы централизованно выполняем асинхронную операцию прямо в dispatch и записываем данные
-export const fetchHeroes = (request) => (dispatch) => {
-    dispatch(heroesFetching());
-    request("http://localhost:3001/heroes")
-        .then(data => dispatch(heroesFetched(data)))
-        .catch(() => dispatch(heroesFetchingError()))
-}
+// export const fetchHeroes = (request) => (dispatch) => {
+//     dispatch(heroesFetching());
+//     request("http://localhost:3001/heroes")
+//         .then(data => dispatch(heroesFetched(data)))
+//         .catch(() => dispatch(heroesFetchingError()))
+// }
+//Используя эту функцию прямо в слайсе мы можем удалить ее из экшена
 
 // export const heroesFetching = () => {
 //     return {
@@ -60,12 +61,13 @@ export const fetchHeroes = (request) => (dispatch) => {
 
 // export const deleteHeroById = createAction('HEROES_DELETE_BY_ID')
 
-export const fetchFilters = (request) => (dispatch) => {
-    dispatch(filtersFetching())
-        request('http://localhost:3001/filters')
-            .then(data => dispatch(filtersFetched(data)))
-            .catch(() => dispatch(filtersFetchingError()))
-}
+// export const fetchFilters = (request) => (dispatch) => {
+//     dispatch(filtersFetching())
+//         request('http://localhost:3001/filters')
+//             .then(data => dispatch(filtersFetched(data)))
+//             .catch(() => dispatch(filtersFetchingError()))
+// }
+//Используя эту функцию прямо в слайсе мы можем удалить ее из экшена
 
 // export const filtersFetching = () => {
 //     return {
